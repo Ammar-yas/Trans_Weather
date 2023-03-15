@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "474662373265",
+    "project_id": "trans-weather",
+    "storage_bucket": "trans-weather.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:474662373265:android:2a3d17cb97813e0fe6bc30",
+        "android_client_info": {
+          "package_name": "com.example.transweather"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "474662373265-9sedcij6gr8a0utpcjk234ch1cvudbc9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBir6qzh_QSECBgE8gNCk96OU3Tlng7Ids"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "474662373265-9sedcij6gr8a0utpcjk234ch1cvudbc9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
