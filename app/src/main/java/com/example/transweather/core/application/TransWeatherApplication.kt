@@ -1,7 +1,8 @@
-package com.example.transweather.core
+package com.example.transweather.core.application
 
 import android.app.Application
 import com.example.transweather.BuildConfig
+import com.example.transweather.core.crash_reporting.FirebaseCrashReportingTree
 import com.pluto.Pluto
 import com.pluto.plugins.network.PlutoNetworkPlugin
 import dagger.hilt.android.HiltAndroidApp

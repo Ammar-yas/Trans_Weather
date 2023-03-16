@@ -1,4 +1,4 @@
-package com.example.transweather.core
+package com.example.transweather.core.crash_reporting
 
 import android.util.Log
 import com.google.firebase.crashlytics.FirebaseCrashlytics
