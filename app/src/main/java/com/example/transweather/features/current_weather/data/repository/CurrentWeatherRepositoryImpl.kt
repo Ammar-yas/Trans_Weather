@@ -15,9 +15,9 @@ class CurrentWeatherRepositoryImpl @Inject constructor(private val service: Open
     private val cachedStates = mutableMapOf<Coord, CachedCurrentWeather>()
 
     override suspend fun getCurrentWeather(requestDto: Map<String, String>): State<CurrentWeatherDto> {
-        val coord = Coord(lon = requestDto["lon"]?.toDouble(), lat = requestDto["lat"]?.toDouble())
-        return if (cachedStates[coord]?.isValid == true) {
-            cachedStates[coord]?.state!!
+        val coordinate = getCoordinateFromMap(requestDto)
+        return if (cachedStates[coordinate]?.isValid == true) {
+            cachedStates[coordinate]?.state!!
         } else {
             getApiCallState(requestDto)
         }
@@ -25,8 +25,16 @@ class CurrentWeatherRepositoryImpl @Inject constructor(private val service: Open
 
     override suspend fun performApiCall(requestDto: Map<String, String>): State<CurrentWeatherDto> {
         val response = service.getWeather(requestDto)
-        return handleResponse(response)
+        val responseState = handleResponse(response)
+        if (responseState is State.Success){
+            val coordinate = getCoordinateFromMap(requestDto)
+            cachedStates[coordinate] = CachedCurrentWeather(responseState)
+        }
+        return responseState
     }
+
+    private fun getCoordinateFromMap(requestDto: Map<String, String>) =
+        Coord(lon = requestDto["lon"]?.toDouble(), lat = requestDto["lat"]?.toDouble())
 
 
 }
