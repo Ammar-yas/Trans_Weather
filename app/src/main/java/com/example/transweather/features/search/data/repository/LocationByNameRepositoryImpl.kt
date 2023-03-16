@@ -1,4 +1,4 @@
-package com.example.transweather.features.search.data.model.repository
+package com.example.transweather.features.search.data.repository
 
 import com.example.transweather.core.repository.BaseRepository
 import com.example.transweather.core.state.State

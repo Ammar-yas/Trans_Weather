@@ -8,13 +8,18 @@ import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.example.transweather.R
 import com.example.transweather.core.basefragment.BaseFragment
 import com.example.transweather.core.state.State
 import com.example.transweather.databinding.FragmentSearchBinding
+import com.example.transweather.features.common.viewmodel.MainViewModel
 import com.example.transweather.features.search.data.model.response.LocationResponseDto
 import com.example.transweather.features.search.presentation.adapter.LocationsAdapter
 import com.example.transweather.features.search.presentation.viewmodel.SearchViewModel
@@ -25,10 +30,12 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import timber.log.Timber
 
+const val LOCATION_CLICKED = "LOCATION_CLICKED"
 @AndroidEntryPoint
 class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_search) {
 
     val searchViewModel: SearchViewModel by viewModels()
+    val mainViewModel: MainViewModel by hiltNavGraphViewModels(R.id.nav_graph)
 
     val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -72,7 +79,11 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(R.layout.fragment_sea
             showCanNotFindLocationToast()
             return
         }
-        val adapter = LocationsAdapter()
+        val adapter = LocationsAdapter{
+            mainViewModel.setSearchLocation(it)
+            setFragmentResult(LOCATION_CLICKED, bundleOf(LOCATION_CLICKED to true))
+            findNavController().popBackStack()
+        }
         adapter.locations = locations
         binding.citiesRv.adapter = adapter
     }

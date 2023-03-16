@@ -2,12 +2,26 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph.xml"
-    app:startDestination="@id/searchFagment">
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/currentWeatherFragment">
+
 
     <fragment
-        android:id="@+id/searchFagment"
+        android:id="@+id/currentWeatherFragment"
+        android:name="com.example.transweather.features.current_weather.presentation.CurrentWeatherFragment"
+        tools:layout="@layout/fragment_current_weather">
+        <action
+            android:id="@+id/action_currentWeatherFragment_to_searchFragment"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"
+            app:destination="@id/searchFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchFragment"
         android:name="com.example.transweather.features.search.presentation.SearchFragment"
-        tools:layout="@layout/fragment_search"/>
+        tools:layout="@layout/fragment_search" />
 
 </navigation>

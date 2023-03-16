@@ -7,9 +7,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.transweather.databinding.SearchItemBinding
 import com.example.transweather.features.search.data.model.response.LocationResponseDto
 
-class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.LocationsViewHolder>() {
+class LocationsAdapter(private val onItemClicked: (LocationResponseDto) -> Unit) :
+    RecyclerView.Adapter<LocationsAdapter.LocationsViewHolder>() {
 
-    var locations :List<LocationResponseDto> = emptyList()
+    var locations: List<LocationResponseDto> = emptyList()
         @SuppressLint("NotifyDataSetChanged") // locations List will change each time
         set(value) {
             field = value
@@ -32,9 +33,10 @@ class LocationsAdapter : RecyclerView.Adapter<LocationsAdapter.LocationsViewHold
         private val binding: SearchItemBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(location: LocationResponseDto){
+        fun bind(location: LocationResponseDto) {
             binding.cityTv.text = location.name
             binding.detailsTv.text = String.format("%s", location.country)
+            binding.root.setOnClickListener { onItemClicked(location) }
         }
 
     }

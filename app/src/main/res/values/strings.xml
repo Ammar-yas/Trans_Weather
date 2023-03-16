@@ -11,4 +11,11 @@
     <string name="can_not_find_location">Can\'t find locations</string>
     <string name="location_permission_error">Please Grant Location permission for the App</string>
     <string name="failed_to_get_location">Failed to get location try again later</string>
+    <string name="explore_forecast">Forecast</string>
+    <string name="switch_to_fahrenheit">switch to °F</string>
+    <string name="switch_to_celsius">switch to °C</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="something_went_wriong">Something went wrong please try again later</string>
+    <string name="search">Search</string>
+    <string name="start_by_searching_for_a_location_press_search_up_top_to_start">Start By Searching for a Location press Search up top to start</string>
 </resources>
