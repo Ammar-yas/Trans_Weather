@@ -130,7 +130,7 @@
             android:id="@+id/weatherInfoGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="locationTv,forecastRv,searchHistoryRv" />
+            app:constraint_referenced_ids="locationTv,radioGroup,forecastRv,searchHistoryRv" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/startBySearchGroup"
