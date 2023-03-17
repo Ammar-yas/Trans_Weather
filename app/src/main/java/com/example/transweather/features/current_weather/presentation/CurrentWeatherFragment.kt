@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.bumptech.glide.Glide
 import com.example.transweather.R
@@ -34,15 +35,27 @@ class CurrentWeatherFragment :
         setupSearchHistoryRv()
         collectCurrentWeatherState()
         binding.searchBtn.setOnClickListener { navigate(R.id.action_currentWeatherFragment_to_searchFragment) }
-        setFragmentResultListener(LOCATION_CLICKED) { _,bundle->
-            if (bundle.getBoolean(LOCATION_CLICKED)){
+        setOnForecastButtonClicked()
+        handleDashboardButton()
+        setFragmentResultListener(LOCATION_CLICKED) { _, bundle ->
+            if (bundle.getBoolean(LOCATION_CLICKED)) {
                 mainViewModel.getCurrentWeather()
             }
         }
     }
 
-    private fun setupSearchHistoryRv(){
-        binding.searchHistoryRv.adapter =  SearchHistoryAdapter {
+    private fun setOnForecastButtonClicked() {
+        binding.forecastBtn.setOnClickListener {
+            val state = mainViewModel.currentWeatherState.value
+            val location =
+                (state as? State.Success)?.data?.locationResponseDto ?: return@setOnClickListener
+            mainViewModel.setSearchLocation(location)
+            navigate(R.id.action_currentWeatherFragment_to_forecastFragment)
+        }
+    }
+
+    private fun setupSearchHistoryRv() {
+        binding.searchHistoryRv.adapter = SearchHistoryAdapter {
             mainViewModel.getWeatherForLocation(it)
         }
         PagerSnapHelper().attachToRecyclerView(binding.searchHistoryRv)
@@ -54,7 +67,7 @@ class CurrentWeatherFragment :
                 binding.progress.isVisible = false
                 when (it) {
                     is State.Initial -> mainViewModel.getCurrentWeather()
-                    is State.Loading ->  binding.progress.isVisible = true
+                    is State.Loading -> binding.progress.isVisible = true
                     is State.Error -> toast(getString(R.string.something_went_wriong))
                     is State.Success -> handleSuccessState(it.data)
                 }
@@ -62,6 +75,7 @@ class CurrentWeatherFragment :
 
         }
     }
+
 
 
 
@@ -98,6 +112,15 @@ class CurrentWeatherFragment :
         val currentList: List<LocationResponseDto> = mainViewModel.getSearchHistory(10)
         val adapter = binding.searchHistoryRv.adapter as? SearchHistoryAdapter
         adapter?.locations = currentList
+    }
+
+    private fun handleDashboardButton() {
+        binding.dashboardBtn.setOnClickListener {
+            findNavController().popBackStack(
+                R.id.dashBoardFragment,
+                false
+            )
+        }
     }
 
 }

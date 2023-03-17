@@ -21,4 +21,7 @@
     <string name="five_days">5 days</string>
     <string name="forty_eight_hours">48 Hours</string>
     <string name="twenty_four_hours">24 Hours</string>
+    <string name="forecast">Forecast</string>
+    <string name="current_weather">Current Weather</string>
+    <string name="fresh_start_message">Hey, it seems you have not seached for any location yet, to start press the forecast or current weather buttons</string>
 </resources>

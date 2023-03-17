@@ -6,6 +6,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.example.transweather.R
 import com.example.transweather.core.basefragment.BaseFragment
@@ -33,6 +34,7 @@ class ForecastFragment : BaseFragment<FragmentForecastBinding>(R.layout.fragment
         setupForecastRv()
         setupRadioGroup()
         collectCurrentWeatherState()
+        handleDashboardButton()
         binding.searchBtn.setOnClickListener { navigate(R.id.action_currentWeatherFragment_to_searchFragment) }
         setFragmentResultListener(LOCATION_CLICKED) { _, bundle ->
             if (bundle.getBoolean(LOCATION_CLICKED)) {
@@ -81,7 +83,7 @@ class ForecastFragment : BaseFragment<FragmentForecastBinding>(R.layout.fragment
                     is State.Initial -> mainViewModel.getCurrentForecast()
                     is State.Loading -> binding.progress.isVisible = true
                     is State.Error -> {
-                        Timber.w(it.exception, it.message )
+                        Timber.w(it.exception, it.message)
                         toast(getString(R.string.something_went_wriong))
                     }
                     is State.Success -> handleSuccessState(it.data)
@@ -110,11 +112,18 @@ class ForecastFragment : BaseFragment<FragmentForecastBinding>(R.layout.fragment
 
 
     private fun updateSearchHistoryRv() {
-        val currentList: List<LocationResponseDto> = mainViewModel.getSearchHistory(10)
+        val currentList: List<LocationResponseDto> = mainViewModel.getSearchHistory(5)
         val adapter = binding.searchHistoryRv.adapter as? SearchHistoryAdapter
         adapter?.locations = currentList
     }
 
-
+    private fun handleDashboardButton() {
+        binding.dashboardBtn.setOnClickListener {
+            findNavController().popBackStack(
+                R.id.dashBoardFragment,
+                false
+            )
+        }
+    }
 }
 
