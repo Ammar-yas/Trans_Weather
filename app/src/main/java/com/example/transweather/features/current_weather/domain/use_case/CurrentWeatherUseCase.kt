@@ -2,6 +2,9 @@ package com.example.transweather.features.current_weather.domain.use_case
 
 import com.example.transweather.core.state.State
 import com.example.transweather.core.storage_manager.StorageManager
+import com.example.transweather.features.common.convertKelvinToUnit
+import com.example.transweather.features.common.models.UNIT
+import com.example.transweather.features.common.models.Unit
 import com.example.transweather.features.current_weather.data.model.response.CurrentWeatherDto
 import com.example.transweather.features.current_weather.domain.model.CurrentWeatherUIModel
 import com.example.transweather.features.current_weather.domain.repository.CurrentWeatherRepository
@@ -14,7 +17,7 @@ import javax.inject.Inject
 class CurrentWeatherUseCase @Inject constructor(
     private val repo: CurrentWeatherRepository, private val storageManager: StorageManager
 ) {
-    var measuringUnit: Unit
+    private var measuringUnit: Unit
 
     init {
         val unitString = storageManager.getString(UNIT, Unit.Celsius.toString())
@@ -43,7 +46,10 @@ class CurrentWeatherUseCase @Inject constructor(
 
     }
 
-    private fun getUiModel(data: CurrentWeatherDto?, locationResponseDto: LocationResponseDto): CurrentWeatherUIModel? {
+    private fun getUiModel(
+        data: CurrentWeatherDto?,
+        locationResponseDto: LocationResponseDto
+    ): CurrentWeatherUIModel? {
         data ?: return null
         return CurrentWeatherUIModel(locationResponseDto).apply {
             iconUrl = "https://openweathermap.org/img/wn/${data.weather?.first()?.icon}@4x.png"
@@ -54,17 +60,5 @@ class CurrentWeatherUseCase @Inject constructor(
         }
     }
 
-    private fun getTemp(kelvin: Double?): Int {
-        kelvin ?: return 0
-        return when (measuringUnit) {
-            Unit.Celsius -> kelvin - 273.15
-            Unit.Fahrenheit -> (kelvin - 273.15) * 1.8 + 32
-        }.toInt()
-    }
-
-    companion object {
-        private const val UNIT = "UNIT"
-    }
-
-    enum class Unit { Celsius, Fahrenheit }
+    private fun getTemp(kelvin: Double?) = convertKelvinToUnit(kelvin, measuringUnit).toInt()
 }

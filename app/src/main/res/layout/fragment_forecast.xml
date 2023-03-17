@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:animateLayoutChanges="true"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/dashboardBtn"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:text="@string/dashboard"
+            app:icon="@drawable/back"
+            app:iconGravity="textStart"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/searchBtn"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:text="@string/search"
+            app:icon="@drawable/search"
+            app:iconGravity="textEnd"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/locationTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:letterSpacing=".3"
+            android:textAlignment="center"
+            android:textColor="?attr/colorOnSurface"
+            android:textSize="@dimen/_22ssp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toBottomOf="@id/dashboardBtn"
+            app:textAllCaps="true"
+            tools:text="Cairo" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkedButton="@+id/fiveDays"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/_14sdp"
+            app:layout_constraintTop_toBottomOf="@id/locationTv">
+
+            <RadioButton
+                android:id="@+id/fiveDays"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/five_days"
+                android:textSize="@dimen/_12ssp"
+                tools:checked="true" />
+
+            <RadioButton
+                android:id="@+id/fortyEightHours"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/forty_eight_hours"
+                android:textSize="@dimen/_12ssp" />
+
+            <RadioButton
+                android:id="@+id/twentyFourHours"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/twenty_four_hours"
+                android:textSize="@dimen/_12ssp" />
+        </RadioGroup>
+
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progress"
+            android:layout_width="@dimen/_48sdp"
+            android:layout_height="@dimen/_48sdp"
+            android:indeterminate="true"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias=".4"
+            tools:visibility="visible" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/forecastRv"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginVertical="@dimen/_8sdp"
+            android:clipToPadding="false"
+            android:paddingHorizontal="@dimen/_8sdp"
+            android:paddingTop="@dimen/_16sdp"
+            android:paddingBottom="@dimen/_50sdp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toTopOf="@id/searchHistoryRv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+            tools:listitem="@layout/item_forecast" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searchHistoryRv"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_120sdp"
+            android:clipToPadding="false"
+            android:orientation="horizontal"
+            android:paddingHorizontal="@dimen/_16sdp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:listitem="@layout/item_recent_search" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/weatherInfoGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="locationTv,forecastRv,searchHistoryRv" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/startBySearchGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:constraint_referenced_ids="searchAnimation,startBySearchingTv" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/searchAnimation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintBottom_toTopOf="@id/startBySearchingTv"
+            app:layout_constraintTop_toBottomOf="@id/dashboardBtn"
+            app:layout_constraintVertical_bias=".4"
+            app:layout_constraintVertical_chainStyle="packed"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/weather_search"
+            tools:visibility="visible" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/startBySearchingTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_16sdp"
+            android:text="@string/start_by_searching_for_a_location_press_search_up_top_to_start"
+            android:textAlignment="center"
+            android:textSize="@dimen/_16sdp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchAnimation" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

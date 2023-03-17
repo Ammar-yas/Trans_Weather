@@ -6,7 +6,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.setFragmentResultListener
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearSnapHelper
 import androidx.recyclerview.widget.PagerSnapHelper
 import com.bumptech.glide.Glide
 import com.example.transweather.R
@@ -14,12 +13,11 @@ import com.example.transweather.core.basefragment.BaseFragment
 import com.example.transweather.core.state.State
 import com.example.transweather.databinding.FragmentCurrentWeatherBinding
 import com.example.transweather.features.common.adapters.SearchHistoryAdapter
+import com.example.transweather.features.common.models.Unit
 import com.example.transweather.features.common.viewmodel.MainViewModel
 import com.example.transweather.features.current_weather.domain.model.CurrentWeatherUIModel
-import com.example.transweather.features.current_weather.domain.use_case.CurrentWeatherUseCase
 import com.example.transweather.features.search.data.model.response.LocationResponseDto
 import com.example.transweather.features.search.presentation.LOCATION_CLICKED
-import com.google.api.Distribution.BucketOptions.Linear
 import com.pluto.plugin.utilities.extensions.toast
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -76,13 +74,13 @@ class CurrentWeatherFragment :
         binding.mainTv.text = weatherDto.main
         binding.descriptionTv.text = weatherDto.description
         var switchButtonTextRes = 0
-        var switchUnit = CurrentWeatherUseCase.Unit.Celsius
-        if (weatherDto.unit == CurrentWeatherUseCase.Unit.Celsius) {
+        val switchUnit: Unit
+        if (weatherDto.unit == Unit.Celsius) {
             switchButtonTextRes = R.string.switch_to_fahrenheit
-            switchUnit = CurrentWeatherUseCase.Unit.Fahrenheit
+            switchUnit = Unit.Fahrenheit
         } else {
             switchButtonTextRes = R.string.switch_to_celsius
-            switchUnit = CurrentWeatherUseCase.Unit.Celsius
+            switchUnit = Unit.Celsius
         }
         binding.switchBtn.text = getString(switchButtonTextRes)
         binding.switchBtn.setOnClickListener {

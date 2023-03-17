@@ -18,4 +18,7 @@
     <string name="something_went_wriong">Something went wrong please try again later</string>
     <string name="search">Search</string>
     <string name="start_by_searching_for_a_location_press_search_up_top_to_start">Start By Searching for a Location press Search up top to start</string>
+    <string name="five_days">5 days</string>
+    <string name="forty_eight_hours">48 Hours</string>
+    <string name="twenty_four_hours">24 Hours</string>
 </resources>
