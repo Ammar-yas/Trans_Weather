@@ -32,7 +32,7 @@ class DashBoardFragment : BaseFragment<FragmentDashboardBinding>(R.layout.fragme
             mainViewModel.currentWeatherState.collectLatest {
                 binding.progress.isVisible = false
                 when (it) {
-                    is State.Initial -> mainViewModel.getCurrentWeather()
+                    is State.Initial -> {}
                     is State.Loading -> binding.progress.isVisible = true
                     is State.Error -> toast(getString(R.string.something_went_wriong))
                     is State.Success -> handleSuccessState(it.data)
@@ -40,6 +40,11 @@ class DashBoardFragment : BaseFragment<FragmentDashboardBinding>(R.layout.fragme
             }
 
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        mainViewModel.getCurrentWeather()
     }
 
     private fun handleSuccessState(weatherDto: CurrentWeatherUIModel?) {
